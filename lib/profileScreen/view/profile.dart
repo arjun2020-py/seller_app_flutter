@@ -4,14 +4,64 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfileScreen extends StatelessWidget {
+import '../../shredPrefrences/shared_pref.dart';
+
+class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   requestPermisson();
+  // }
+
+  //forground messaging using  firebaseMesaaging
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // var intalizationSettingAndroid =
+  //     const AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  // final FlutterLocalNotificationsPlugin flutter_local_notfication_plugin =
+  //     FlutterLocalNotificationsPlugin();
+
+  // Future<void> requestPermisson() async {
+  //   await messaging.requestPermission(
+  //     announcement: true,
+  //     carPlay: true,
+  //     criticalAlert: true,
+  //   );
+  //   final InitializationSettings initialization_settings =
+  //       InitializationSettings(
+  //     android: intalizationSettingAndroid,
+  //   );
+  //   await flutter_local_notfication_plugin.initialize(initialization_settings,
+  //       onDidReceiveNotificationResponse: (details) {});
+  // }
+
+  // Future<void> showNotifcation() async {
+  //   const andriodPlatfromChaneelSpefices = AndroidNotificationDetails(
+  //       'channelId', 'channelName',
+  //       channelDescription: 'Decrption');
+  //   const platfromChannelSpefices =
+  //       NotificationDetails(android: andriodPlatfromChaneelSpefices);
+  //   await flutter_local_notfication_plugin.show(
+  //       0, 'this is show time', 'your day', platfromChannelSpefices,
+  //       payload: 'items');
+  // }
+
   final userRef = FirebaseFirestore.instance.collection("Users");
+
   final _auth = FirebaseAuth.instance;
 
   @override
@@ -26,11 +76,6 @@ class ProfileScreen extends StatelessWidget {
                 if (snapshot.hasData) {
                   final userData = snapshot.data!;
 
-                  // print(userData['userName'].toString());
-                  //  print(userData['email'].toString());
-
-                  // print(userData['userName']);
-                  // print(userData['email']);
                   return Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
@@ -47,7 +92,6 @@ class ProfileScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 20,
                                 ),
-
                                 Row(
                                   children: [
                                     const SizedBox(
@@ -97,24 +141,6 @@ class ProfileScreen extends StatelessWidget {
                                   padding: const EdgeInsets.only(right: 150),
                                   child: Text(userData['email'].toString()),
                                 ),
-
-                                // title: Text(userData['userName'].toString()),
-                                // subtitle: Text(userData['email'].toString()),
-                                // trailing: TextButton(
-                                //     onPressed: getPic,
-                                //     child: const Padding(
-                                //       padding: EdgeInsets.all(15.0),
-                                //       child: Text('Upload pic'),
-                                // )),
-
-                                // Padding(
-                                //   padding: const EdgeInsets.only(left: 50),
-                                //   child: TextButton(
-                                //       onPressed: () {},
-                                //       child: Text('upload pic')),
-                                // ),
-                                // Text(userData['userName'].toString()),
-                                // Text(userData['email'].toString())
                               ],
                             ),
                           ),
@@ -128,7 +154,9 @@ class ProfileScreen extends StatelessWidget {
                               leading: const Icon(Icons.person),
                               title: const Text("Seler Account"),
                               trailing: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    ShredPref().getUserData();
+                                  },
                                   icon: const Icon(Icons.navigate_next)),
                             ),
                           ),
@@ -185,6 +213,7 @@ class ProfileScreen extends StatelessWidget {
                               title: const Text("Logout"),
                               trailing: IconButton(
                                   onPressed: () {
+                                    ShredPref().removeUserData();
                                     Navigator.of(context).pushNamed('Login');
                                   },
                                   icon: const Icon(Icons.navigate_next)),
@@ -205,8 +234,8 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-  //get images from mobile
 
+  //get images from mobile
   Future<void> getPic() async {
     final _imagepicker = ImagePicker();
     try {

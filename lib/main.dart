@@ -6,6 +6,7 @@ import 'package:seller/dashboad/view/dashboad.dart';
 import 'package:seller/home/view/home_screen.dart';
 import 'package:seller/orderScreen/order_screen.dart';
 import 'package:seller/product_screen/view/product_screen.dart';
+import 'package:seller/splashScreen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: SplashScreen(),
       routes: {
         "Login": (context) => LoginScreen(),
         "Register": (context) => SiginupScreen(),

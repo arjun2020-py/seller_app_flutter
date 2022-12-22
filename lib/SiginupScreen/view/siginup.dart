@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seller/LoginScrren/view/login_scrren.dart';
@@ -224,25 +222,3 @@ class _SiginupScreenState extends State<SiginupScreen> {
     );
   }
 }
-
-// Future<void> CreateUsers(String name, String email, String passwrod,
-//     String mobil, String confromPass, BuildContext context) async {
-//   final auth = FirebaseAuth.instance;
-//   final userRef = FirebaseFirestore.instance.collection('Users');
-
-//   try {
-//     await auth.createUserWithEmailAndPassword(email: email, password: passwrod);
-//     await userRef.doc(auth.currentUser!.uid).set({
-//       'userid': auth.currentUser!.uid,
-//       'userName': name,
-//       'email': email,
-//       'mobil': mobil,
-//       'passwrod': passwrod,
-//       'confromPasswrod': confromPass,
-//       'profileImage': '',
-//     });
-//     Navigator.pushNamed(context, 'Login');
-//   } on FirebaseAuthException catch (e) {
-//     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.code)));
-//   }
-// }

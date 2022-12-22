@@ -93,23 +93,15 @@ class modelTextfield extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    // if (buttonType) {
-                    //   CreateProdcut(
-                    //       image: image,
-                    //       proName: productnameControler.text,
-                    //       proDecrption: productDcrptionControler.text,
-                    //       proPrice: productpriceController.text);
-
-                    //   Navigator.pop(context);
-                    // } else {
-                    //   updateProduct(
-                    //       proName: productnameControler.text,
-                    //       proDec: productDcrptionControler.text,
-                    //       proPrice: productpriceController.text);
-                    //   Navigator.pop(context);
-                    // }
-                  },
-                  child: Text((buttonType) ? "Add" : "Update")),
+                    
+                      updateProduct(
+                          proName: productnameControler.text,
+                          proDec: productDcrptionControler.text,
+                          proPrice: productpriceController.text);
+                      Navigator.pop(context);
+                    },
+                  
+                  child: Text( "Update")),
               const SizedBox(
                 height: 15,
               ),
